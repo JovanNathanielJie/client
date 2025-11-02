@@ -5,9 +5,9 @@
 
     <h2 class="mb-4 fw-bold text-pink">💖 Message Generator 💖</h2>
     <p class="text-muted mb-5">
-        Tiap pesan di sini muncul secara acak — berbeda setiap kali kamu menekan tombol atau me-refresh halaman.<br>
+        Tiap pesan di sini muncul secara acak, berbeda setiap kali kamu menekan tombol atau me-refresh halaman.<br>
         Kadang kamu cuma perlu seseorang yang ngerti tanpa perlu banyak kata. <br>
-        Jadi aku siapin beberapa tombol di bawah — tinggal pilih aja yang paling kamu rasain hari ini 💗 <br>
+        Jadi aku siapin beberapa tombol di bawah, tinggal pilih aja yang paling kamu rasain hari ini 💗 <br>
         Aku menulis semuanya khusus buatmu, agar tiap momen terasa sedikit lebih hangat 💫
     </p>
 

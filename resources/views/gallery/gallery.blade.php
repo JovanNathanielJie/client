@@ -4,9 +4,9 @@
 <div class="container py-5 text-center">
     <h2 class="fw-bold mb-3 text-pink">📸 Our Gallery</h2>
     <p class="text-muted mb-5">
-        Every photo tells a story — of laughter, of quiet moments, and of all the little things that make us *us*.<br>
+        Every photo tells a story, of laughter, of quiet moments, and of all the little things that make us <strong>us</strong>.<br>
         This gallery is a place where memories will live, frozen in light and time.<br>
-        For now, it waits — patiently — for the moments we’ll soon capture together. 💫
+        For now, it waits for the moments we’ll soon capture together. 💫
     </p>
 
     <!-- Horizontal Scroll Gallery -->
