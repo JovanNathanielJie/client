@@ -158,7 +158,7 @@
             <li class="nav-item">
             <a href="{{ url('/countdown') }}" class="nav-link active">
                 <i class="nav-icon fas fa-hourglass-half"></i>
-                <p>Countdown Hari Spesial</p>
+                <p>Countdown</p>
             </a>
             </li>
         </ul>
