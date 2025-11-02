@@ -155,6 +155,12 @@
                 <p>Guess the Song</p>
             </a>
             </li>
+            <li class="nav-item">
+            <a href="{{ url('/countdown') }}" class="nav-link active">
+                <i class="nav-icon fas fa-hourglass-half"></i>
+                <p>Countdown Hari Spesial</p>
+            </a>
+            </li>
         </ul>
       </nav>
     </div>

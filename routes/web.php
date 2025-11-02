@@ -50,6 +50,10 @@ Route::get('/guess', function () {
     return view('guess.guess');
 });
 
+Route::get('/countdown', function () {
+    return view('countdown.countdown');
+});
+
 Route::get('/api/spotify/tracks', function () {
     $clientId = env('SPOTIFY_CLIENT_ID');
     $clientSecret = env('SPOTIFY_CLIENT_SECRET');
