@@ -19,11 +19,14 @@
         <button class="btn btn-outline-primary emotion-btn" data-emotion="cerita">Aku mau ceritaa 🥺</button>
     </div>
 
-    <div id="messageBox" class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
-        <div class="card-body py-4">
-            <p id="messageText" class="fs-5 text-dark" style="min-height: 80px;">Klik salah satu tombol di atas untuk dapat pesan manis 💌</p>
-        </div>
+    <div id="messageBox" class="card shadow-lg border-0 mx-auto text-center" style="max-width: 600px; background: linear-gradient(145deg, #fff0f6, #ffe6f2); border-radius: 20px;">
+    <div class="card-header border-0 bg-transparent">
+        <h5 id="messageTitle" class="fw-bold text-pink mb-0">💌 Pesan Untukmu</h5>
     </div>
+    <div class="card-body py-4">
+        <p id="messageText" class="fs-5 text-dark" style="min-height: 80px;">Klik salah satu tombol di atas untuk dapat pesan manis 💖</p>
+    </div>
+</div>
 
     <audio id="popSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3f9d3a9ed5.mp3" preload="auto"></audio>
 </div>
@@ -43,6 +46,17 @@
     }
     .text-pink {
         color: #ff5c8d;
+    }
+    .card {
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 30px rgba(255, 105, 180, 0.2);
+    }
+    .card-header h5 {
+        font-family: 'Poppins', sans-serif;
+        letter-spacing: 0.5px;
     }
 </style>
 
