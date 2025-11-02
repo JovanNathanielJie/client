@@ -2,128 +2,121 @@
 
 @section('content')
 <div class="text-center mb-5">
-    <h2 class="mb-3">✨ Countdown Hari Spesial ✨</h2>
-    <p class="lead text-muted">
-        Hitung mundur menuju momen-momen istimewa kamu, Ella 💫<br>
-        Setiap tanggal punya cerita indah tersendiri 🌷
+    <h2 class="mb-3">✨ Countdown for Ella ✨</h2>
+    <p class="lead text-muted mx-auto" style="max-width: 700px; font-family: 'Poppins', sans-serif;">
+        Kadang waktu berjalan terlalu cepat, tapi aku ingin mengingat tiap detiknya bersamamu.
+        Di sini, setiap hitungan mundur bukan sekadar angka — tapi jejak momen indah yang akan datang.
+        Semoga kita selalu punya alasan untuk menanti hari-hari bahagia berikutnya 💫
     </p>
 </div>
 
 <div class="row justify-content-center">
-    <!-- Forxa Day -->
-    <div class="col-md-6 col-lg-5 mb-4">
-        <div class="card p-4 text-center shadow-sm h-100">
-            <h5 class="mb-3">Forxa Day 💪</h5>
-            <div id="forxa" class="countdown text-purple fw-semibold"></div>
+    <!-- Forxa -->
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card shadow-sm text-center p-4 h-100 border-0" style="background: #fef6e4;">
+            <h5 class="mb-3 text-dark">Forxa</h5>
+            <div id="forxa-countdown" class="fw-bold fs-4 mb-3"></div>
+            <p class="text-muted small">20 November 2025 — momen istimewa yang kita nantikan ✨</p>
         </div>
     </div>
 
     <!-- Natal -->
-    <div class="col-md-6 col-lg-5 mb-4">
-        <div class="card p-4 text-center shadow-sm h-100">
-            <h5 class="mb-3">Natal 🎄</h5>
-            <div id="natal" class="countdown text-purple fw-semibold"></div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card shadow-sm text-center p-4 h-100 border-0" style="background: #e8f9fd;">
+            <h5 class="mb-3 text-success">🎄 Natal</h5>
+            <div id="christmas-countdown" class="fw-bold fs-4 mb-3"></div>
+            <p class="text-muted small">25 Desember — penuh damai, hangat, dan cinta 💚</p>
         </div>
     </div>
 
-    <!-- Tahun Baru -->
-    <div class="col-md-6 col-lg-5 mb-4">
-        <div class="card p-4 text-center shadow-sm h-100">
-            <h5 class="mb-3">Tahun Baru 🎆</h5>
-            <div id="newyear" class="countdown text-purple fw-semibold"></div>
+    <!-- New Year -->
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card shadow-sm text-center p-4 h-100 border-0" style="background: #fff3e2;">
+            <h5 class="mb-3 text-danger">🎆 New Year's Eve</h5>
+            <div id="newyear-countdown" class="fw-bold fs-4 mb-3"></div>
+            <p class="text-muted small">31 Desember — lembar baru, harapan baru 🌟</p>
         </div>
     </div>
 
-    <!-- Ulang Tahun -->
-    <div class="col-md-6 col-lg-5 mb-4">
-        <div class="card p-4 text-center shadow-sm h-100">
-            <h5 class="mb-3">Ulang Tahun 🎂</h5>
-            <div id="birthday" class="countdown text-purple fw-semibold"></div>
+    <!-- Birthday -->
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card shadow-sm text-center p-4 h-100 border-0" style="background: #fceef5;">
+            <h5 class="mb-3 text-pink">🎂 Ulang Tahun Ella</h5>
+            <div id="birthday-countdown" class="fw-bold fs-4 mb-3"></div>
+            <p class="text-muted small">14 Mei — hari di mana dunia jadi lebih indah karena kamu 💖</p>
         </div>
     </div>
+
+
+    <!-- Pesan Romantis -->
+    <div class="text-center mt-5 p-4">
+        <p class="romantic-text">
+            “Setiap waktu bersamamu seperti hitungan menit di dalam lagu yang indah.<br>
+            Aku membuat halaman ini agar nanti kita bisa tertawa,<br>
+            saat menghitung lagi semua momen kecil yang ternyata begitu besar bagi hati ini.”
+        </p>
+    </div>
+
 </div>
 
-<style>
-.text-purple {
-    color: #6b1b7e;
-}
-.countdown {
-    font-size: 1.8rem;
-    letter-spacing: 1px;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-.countdown div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.countdown span {
-    font-size: 0.85rem;
-    color: #a47cc3;
-}
 
-/* Card hover */
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.text-pink { color: #e75480; }
 .card {
-    border: none;
     border-radius: 16px;
     transition: all 0.3s ease;
 }
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(107, 27, 126, 0.15);
-}
-
-/* Gradient background to match playlist */
-body {
-    background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 </style>
 
 <script>
-function updateCountdown(id, targetDate) {
-    const element = document.getElementById(id);
-    const now = new Date();
-    const distance = targetDate - now;
+document.addEventListener("DOMContentLoaded", function () {
+    const events = [
+        { id: "forxa-countdown", date: new Date("November 20, 2025 00:00:00"), repeat: false },
+        { id: "christmas-countdown", date: nextDate(12, 25), repeat: true },
+        { id: "newyear-countdown", date: nextDate(12, 31), repeat: true },
+        { id: "birthday-countdown", date: nextDate(5, 14), repeat: true },
+    ];
 
-    if (distance <= 0) {
-        element.innerHTML = "<div>✨ Sudah tiba! ✨</div>";
-        return;
+    function nextDate(month, day) {
+        const now = new Date();
+        let target = new Date(now.getFullYear(), month - 1, day);
+        if (now > target) target.setFullYear(target.getFullYear() + 1);
+        return target;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((distance / (1000 * 60)) % 60);
-    const seconds = Math.floor((distance / 1000) % 60);
+    events.forEach(event => {
+        updateCountdown(event);
+        setInterval(() => updateCountdown(event), 1000);
+    });
 
-    element.innerHTML = `
-        <div>${days}<span>hari</span></div>
-        <div>${hours}<span>jam</span></div>
-        <div>${minutes}<span>menit</span></div>
-        <div>${seconds}<span>detik</span></div>
-    `;
-}
+    function updateCountdown(event) {
+        const now = new Date();
+        const distance = event.date - now;
+        const countdownEl = document.getElementById(event.id);
 
-function initCountdowns() {
-    const year = new Date().getFullYear();
+        if (distance <= 0) {
+            if (event.repeat) {
+                event.date.setFullYear(event.date.getFullYear() + 1);
+            } else {
+                countdownEl.textContent = "🎉 Sudah tiba! 🎉";
+                return;
+            }
+        }
 
-    const events = {
-        forxa: new Date("2025-11-20T00:00:00"),
-        natal: new Date(`${year}-12-25T00:00:00`),
-        newyear: new Date(`${year}-12-31T00:00:00`),
-        birthday: new Date(`${year}-05-14T00:00:00`)
-    };
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((distance / (1000 * 60)) % 60);
+        const seconds = Math.floor((distance / 1000) % 60);
 
-    setInterval(() => {
-        updateCountdown("forxa", events.forxa);
-        updateCountdown("natal", events.natal);
-        updateCountdown("newyear", events.newyear);
-        updateCountdown("birthday", events.birthday);
-    }, 1000);
-}
-
-initCountdowns();
+        countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+});
 </script>
 @endsection
