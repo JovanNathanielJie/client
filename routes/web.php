@@ -45,5 +45,5 @@ Route::get('/playlist', function()  {
 });
 
 Route::get('/guess', function () {
-    return view('guess');
+    return view('guess.guess');
 });
