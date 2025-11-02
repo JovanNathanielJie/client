@@ -5,7 +5,7 @@
     <div class="text-center mb-5">
         <h2 class="fw-bold text-gradient">🌷 About Ella 🌷</h2>
         <p class="text-muted">
-            A small tribute page — written with warmth, admiration, and a little bit of magic. ✨
+            A small tribute page written with warmth, admiration, and a little bit of magic. ✨
         </p>
     </div>
 
