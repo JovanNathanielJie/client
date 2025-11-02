@@ -161,6 +161,12 @@
                 <p>Countdown</p>
             </a>
             </li>
+            <li class="nav-item">
+            <a href="{{ url('/message') }}" class="nav-link active">
+                <i class="nav-icon fas fa-comment-dots"></i>
+                <p>Message Generator</p>
+            </a>
+            </li>
         </ul>
       </nav>
     </div>
