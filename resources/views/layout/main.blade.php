@@ -149,14 +149,21 @@
               <p>Playlist</p>
             </a>
           </li>
+          </li>
             <li class="nav-item">
-            <a href="{{ url('/countdown') }}" class="nav-link">
+            <a href="{{ url('/biography') }}" class="nav-link">
+              <i class="nav-icon fas fa-gem"></i>
+              <p>Her</p>
+            </a>
+          </li>
+            <li class="nav-item">
+            <a href="{{ url('/countdown') }}" class="nav-link active">
                 <i class="nav-icon fas fa-hourglass-half"></i>
                 <p>Countdown</p>
             </a>
             </li>
             <li class="nav-item">
-            <a href="{{ url('/message') }}" class="nav-link active">
+            <a href="{{ url('/message') }}" class="nav-link">
                 <i class="nav-icon fas fa-comment-dots"></i>
                 <p>Message Generator</p>
             </a>
