@@ -46,10 +46,6 @@ Route::get('/playlist', function()  {
     return view('playlist.playlist');
 });
 
-Route::get('/guess', function () {
-    return view('guess.guess');
-});
-
 Route::get('/countdown', function () {
     return view('countdown.countdown');
 });
