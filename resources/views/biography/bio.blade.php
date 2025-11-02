@@ -17,8 +17,8 @@
             <div class="card border-0 shadow-sm p-4">
                 <div class="card-body">
                     <h4 class="text-gradient mb-3">✨ Her Story ✨</h4>
-                    <p class="lead text-muted">
-                        Her name is Marcella Herlyne Basri, but to me, she will always be Ella —
+                    <p class="text-muted">
+                        Her name is Marcella Herlyne Basri, but to me, she will always be Ella,
                         a name that feels as gentle and beautiful as she is. <br>
                         She was born on May 14, 2008, in the vibrant city of Palembang, Indonesia.
                     </p>
