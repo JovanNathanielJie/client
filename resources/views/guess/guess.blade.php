@@ -2,19 +2,22 @@
 
 @section('content')
 <div class="text-center mb-5">
-    <h2 class="mb-3">Guess the Song 🎧</h2>
+    <h2 class="mb-3">🎧 Guess the Song 💕</h2>
     <p class="lead text-muted">
-        Dengarkan potongan lagu dari playlist spesial kita,<br>
-        lalu coba tebak judulnya! 💙
+        Dengerin potongan lagunya, lalu coba tebak judulnya!<br>
+        Siapa tahu kamu hafal semua lagu spesial kita 🎶
     </p>
 </div>
 
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card shadow-sm p-4 text-center">
-            <h5 class="mb-3 text-secondary">Siap tebak lagu, Ella? 🎶</h5>
+        <div class="card shadow-lg border-0 p-4 text-center" style="border-radius: 20px;">
+            <h5 class="mb-3 text-secondary">Kamu siap tebak lagu hari ini, Ella? 🎶</h5>
 
-            <audio id="audioPlayer" class="mb-3 w-100" controls></audio>
+            <audio id="audioPlayer" class="mb-3 w-100" controls preload="auto">
+                <source src="" type="audio/mpeg">
+                Browser kamu tidak mendukung pemutar audio.
+            </audio>
 
             <button id="newSongBtn" class="btn btn-gradient mb-4">
                 <i class="fas fa-random"></i> Putar Lagu Baru
@@ -44,34 +47,44 @@
 }
 .btn-gradient:hover {
     opacity: 0.85;
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
-.text-purple {
-    color: #6b1b7e;
+.text-purple { color: #6b1b7e; }
+.card {
+    background: linear-gradient(135deg, #fff 0%, #fdf2ff 100%);
 }
 </style>
 
 <script>
-let tracks = [];
+// Daftar lagu manual (bisa diganti dengan hasil dari Spotify API nanti)
+const localTracks = [
+    { name: "Perfect", artist: "Ed Sheeran", preview_url: "https://p.scdn.co/mp3-preview/5b54a1f1e891e4abf8125a404edcccbfcf178a6a?cid=774b29d4f13844c495f206cafdad9c86" },
+    { name: "Lover", artist: "Taylor Swift", preview_url: "https://p.scdn.co/mp3-preview/22dd481f0d678345ef7c9022cf7e309baf0a7d4b?cid=774b29d4f13844c495f206cafdad9c86" },
+    { name: "Let Her Go", artist: "Passenger", preview_url: "https://p.scdn.co/mp3-preview/7acbe13cc8e89ad3e52ec5cb7b8ce14e77a94909?cid=774b29d4f13844c495f206cafdad9c86" },
+    { name: "All of Me", artist: "John Legend", preview_url: "https://p.scdn.co/mp3-preview/f271d2817cd010b428de66dcd8de1c68f85ddabf?cid=774b29d4f13844c495f206cafdad9c86" },
+    { name: "Beautiful Girls", artist: "Sean Kingston", preview_url: "https://p.scdn.co/mp3-preview/3b662cf0f414f229f51663a54186dbb76d4ac469?cid=774b29d4f13844c495f206cafdad9c86" }
+];
+
+let tracks = localTracks;
 let currentTrack = null;
 
-async function loadTracks() {
-    const response = await fetch('/api/spotify/tracks');
-    tracks = await response.json();
-    if (!tracks.length) {
-        document.getElementById("resultArea").textContent =
-            "Tidak ada lagu yang bisa diputar 😢 (mungkin semua lagu tidak punya preview_url)";
+function playRandomSong() {
+    const availableTracks = tracks.filter(t => t.preview_url);
+    if (!availableTracks.length) {
+        document.getElementById("resultArea").textContent = "Tidak ada lagu dengan preview tersedia 😢";
+        return;
     }
-}
 
-async function playRandomSong() {
-    if (tracks.length === 0) await loadTracks();
+    currentTrack = availableTracks[Math.floor(Math.random() * availableTracks.length)];
+    const player = document.getElementById("audioPlayer");
 
-    currentTrack = tracks[Math.floor(Math.random() * tracks.length)];
-    document.getElementById("audioPlayer").src = currentTrack.preview_url;
-    document.getElementById("audioPlayer").play();
+    player.src = currentTrack.preview_url;
+    player.play().catch(() => {
+        document.getElementById("resultArea").textContent = "🎵 Gagal memutar audio, coba klik ulang tombol ya";
+    });
+
     document.getElementById("guessArea").style.display = "block";
-    document.getElementById("resultArea").textContent = "";
+    document.getElementById("resultArea").innerHTML = "";
     document.getElementById("guessInput").value = "";
 }
 
@@ -85,9 +98,9 @@ document.getElementById("submitGuessBtn").addEventListener("click", () => {
     const result = document.getElementById("resultArea");
 
     if (guess === correct) {
-        result.innerHTML = "💖 Benar banget, Ella! Kamu hafal lagu kita!";
+        result.innerHTML = `<span class="text-success">💖 Benar banget, Ella! Kamu hafal banget lagu <em>${currentTrack.name}</em>! 🎵</span>`;
     } else {
-        result.innerHTML = `😝 Hampir! Lagu itu adalah: <br><strong>"${currentTrack.name}"</strong> – ${currentTrack.artist}`;
+        result.innerHTML = `😝 Hampir! Lagu itu adalah:<br><strong>"${currentTrack.name}"</strong> – ${currentTrack.artist}`;
     }
 
     document.getElementById("guessArea").style.display = "none";
