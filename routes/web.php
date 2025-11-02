@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SpotifyController;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 // Halaman welcome/login
 Route::get('/', function () {
@@ -46,4 +48,45 @@ Route::get('/playlist', function()  {
 
 Route::get('/guess', function () {
     return view('guess.guess');
+});
+
+Route::get('/api/spotify/tracks', function () {
+    $clientId = env('SPOTIFY_CLIENT_ID');
+    $clientSecret = env('SPOTIFY_CLIENT_SECRET');
+
+    // Cek cache token (biar gak minta token terus)
+    $token = Cache::get('spotify_token');
+
+    if (!$token) {
+        $response = Http::asForm()->withHeaders([
+            'Authorization' => 'Basic ' . base64_encode("$clientId:$clientSecret"),
+        ])->post('https://accounts.spotify.com/api/token', [
+            'grant_type' => 'client_credentials',
+        ]);
+
+        $token = $response->json()['access_token'] ?? null;
+        if (!$token) {
+            return response()->json(['error' => 'Failed to get token'], 500);
+        }
+
+        Cache::put('spotify_token', $token, now()->addMinutes(55)); // Token 1 jam
+    }
+
+    // Ambil tracks dari playlist kamu
+    $playlistId = '38QnPhHZa2umQm45xPTo1H';
+    $result = Http::withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->get("https://api.spotify.com/v1/playlists/$playlistId/tracks");
+
+    $tracks = collect($result->json()['items'] ?? [])
+        ->map(fn($item) => $item['track'])
+        ->filter(fn($track) => !empty($track['preview_url']))
+        ->map(fn($track) => [
+            'name' => $track['name'],
+            'artist' => collect($track['artists'])->pluck('name')->join(', '),
+            'preview_url' => $track['preview_url'],
+        ])
+        ->values();
+
+    return response()->json($tracks);
 });
