@@ -47,19 +47,19 @@
         </div>
     </div>
 
-
-    <!-- Pesan Romantis -->
-    <div class="text-center mt-5 p-4">
-        <p class="romantic-text">
-            “Setiap waktu bersamamu seperti hitungan menit di dalam lagu yang indah.<br>
-            Aku membuat halaman ini agar nanti kita bisa tertawa,<br>
-            saat menghitung lagi semua momen kecil yang ternyata begitu besar bagi hati ini.”
-        </p>
-    </div>
-
 </div>
 
-
+        <!-- Pesan Penutup -->
+        <div class="card shadow-lg my-5 border-0" style="border-radius: 20px; background: #fff;">
+            <div class="card-body p-4">
+                <h3 class="text-center fw-bold mb-4 gradient-text">Hello, Orang Lucu!</h3>
+                <p class="fst-italic text-secondary" style="font-size: 1.1rem; line-height: 1.8;">
+                    “Setiap waktu bersamamu seperti hitungan menit di dalam lagu yang indah.<br>
+            Aku membuat halaman ini agar nanti kita bisa tertawa,<br>
+            saat menghitung lagi semua momen kecil yang ternyata begitu besar bagi hati ini.” 💖
+                </p>
+            </div>
+        </div>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
