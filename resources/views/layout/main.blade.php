@@ -168,6 +168,12 @@
                 <p>Message Generator</p>
             </a>
             </li>
+            <li class="nav-item">
+            <a href="{{ url('/gallery') }}" class="nav-link active">
+                <i class="nav-icon fas fa-camera-retro"></i>
+                <p>Gallery</p>
+            </a>
+            </li>
         </ul>
       </nav>
     </div>

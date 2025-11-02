@@ -58,6 +58,10 @@ Route::get('/biography', function () {
     return view('biography.bio');
 });
 
+Route::get('/gallery', function () {
+    return view('gallery.gallery');
+});
+
 Route::get('/api/spotify/tracks', function () {
     $clientId = env('SPOTIFY_CLIENT_ID');
     $clientSecret = env('SPOTIFY_CLIENT_SECRET');
