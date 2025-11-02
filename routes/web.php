@@ -62,37 +62,25 @@ Route::get('/api/spotify/tracks', function () {
     $clientId = env('SPOTIFY_CLIENT_ID');
     $clientSecret = env('SPOTIFY_CLIENT_SECRET');
 
-    // Cek cache token (biar gak minta token terus)
-    $token = Cache::get('spotify_token');
+    // Ambil token
+    $tokenResponse = Http::asForm()->post('https://accounts.spotify.com/api/token', [
+        'grant_type' => 'client_credentials',
+        'client_id' => $clientId,
+        'client_secret' => $clientSecret,
+    ]);
+    $accessToken = $tokenResponse['access_token'];
 
-    if (!$token) {
-        $response = Http::asForm()->withHeaders([
-            'Authorization' => 'Basic ' . base64_encode("$clientId:$clientSecret"),
-        ])->post('https://accounts.spotify.com/api/token', [
-            'grant_type' => 'client_credentials',
-        ]);
-
-        $token = $response->json()['access_token'] ?? null;
-        if (!$token) {
-            return response()->json(['error' => 'Failed to get token'], 500);
-        }
-
-        Cache::put('spotify_token', $token, now()->addMinutes(55)); // Token 1 jam
-    }
-
-    // Ambil tracks dari playlist kamu
+    // Playlist kamu
     $playlistId = '38QnPhHZa2umQm45xPTo1H';
-    $result = Http::withHeaders([
-        'Authorization' => 'Bearer ' . $token,
-    ])->get("https://api.spotify.com/v1/playlists/$playlistId/tracks");
+    $response = Http::withToken($accessToken)
+        ->get("https://api.spotify.com/v1/playlists/$playlistId/tracks");
 
-    $tracks = collect($result->json()['items'] ?? [])
-        ->map(fn($item) => $item['track'])
-        ->filter(fn($track) => !empty($track['preview_url']))
-        ->map(fn($track) => [
-            'name' => $track['name'],
-            'artist' => collect($track['artists'])->pluck('name')->join(', '),
-            'preview_url' => $track['preview_url'],
+    $tracks = collect($response['items'])
+        ->filter(fn($item) => isset($item['track']['preview_url']))
+        ->map(fn($item) => [
+            'name' => $item['track']['name'],
+            'artist' => $item['track']['artists'][0]['name'],
+            'preview_url' => $item['track']['preview_url'],
         ])
         ->values();
 
