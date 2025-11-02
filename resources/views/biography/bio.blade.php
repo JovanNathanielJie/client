@@ -59,7 +59,7 @@
                         And maybe that’s what love truly is, not fireworks or grand gestures,
                         but the gentle certainty that no matter where life takes us,
                         I’ll always be grateful for the days, the laughter, and the quiet nights we’ve shared.
-                        Because somewhere between all of that… she became home. 💗
+                        Because somewhere between all of that… she became home.
                     </p>
                     <p class="text-muted">
                         This page is a quiet reminder of how one person can inspire so much just by being themselves. 💖
