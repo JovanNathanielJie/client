@@ -149,6 +149,12 @@
               <p>Playlist</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ url('/guess') }}" class="nav-link">
+                <i class="nav-icon fas fa-headphones"></i>
+                <p>Guess the Song</p>
+            </a>
+            </li>
         </ul>
       </nav>
     </div>

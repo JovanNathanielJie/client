@@ -43,3 +43,7 @@ Route::get('/postcards/affection', function () {
 Route::get('/playlist', function()  {
     return view('playlist.playlist');
 });
+
+Route::get('/guess', function () {
+    return view('guess');
+});
