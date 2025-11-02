@@ -39,7 +39,7 @@
                         Every laugh, every glance, feels like a verse of a song that stays in your heart long after the music fades.
                     </p>
                     <p class="text-muted">
-                        She isn’t perfect — and that’s what makes her real. She loves deeply, dreams freely, and believes in kindness
+                        She isn’t perfect, and that’s what makes her real. She loves deeply, dreams freely, and believes in kindness
                         even when the world forgets to be gentle. Ella is both the calm after the storm and the sunlight before the rain.
                         To know her is to understand what it means to feel at home, even without a place.
                     </p>
