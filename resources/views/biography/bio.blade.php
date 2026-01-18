@@ -68,10 +68,9 @@
             </div>
         </div>
     </div>
-</div>
 
     <!-- Timeline Section -->
-    <div class="mt-5">
+    <div class="mt-5 pt-5 border-top">
         <h2 class="fw-bold text-gradient text-center mb-5">💫 Our Timeline 💫</h2>
         <p class="text-center text-muted mb-5">Milestones of our beautiful journey together</p>
 
@@ -124,6 +123,8 @@
     background: linear-gradient(90deg, #ff9a9e, #fad0c4);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
 }
 .card {
     border-radius: 1rem;
