@@ -66,11 +66,6 @@ Route::get('/gallery', function () {
 Route::get('/game/guess-the-song', [GameController::class, 'guessTheSong'])
     ->name('game.guess-the-song');
 
-// API Routes (no middleware)
-Route::middleware([])->group(function () {
-    Route::get('/api/game/song-data', [GameController::class, 'getSongData']);
-});
-
 Route::get('/api/spotify/tracks', function () {
     $clientId = env('SPOTIFY_CLIENT_ID');
     $clientSecret = env('SPOTIFY_CLIENT_SECRET');

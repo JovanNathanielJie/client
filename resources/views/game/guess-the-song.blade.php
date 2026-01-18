@@ -412,6 +412,9 @@
         fetch('/api/game/song-data')
             .then(response => {
                 console.log('API Response Status:', response.status);
+                if (!response.ok) {
+                    throw new Error('HTTP error status: ' + response.status);
+                }
                 return response.json();
             })
             .then(data => {

@@ -246,3 +246,5 @@
         text-align: left;
         width: 100%;
     }
+</style>
+@endsection
