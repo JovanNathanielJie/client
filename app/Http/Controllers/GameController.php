@@ -32,69 +32,85 @@ class GameController extends Controller
 
     public function getSongData(Request $request)
     {
-        $playlistId = $request->input('playlist_id', '38QnPhHZa2umQm45xPTo1H'); // Default playlist
-
         try {
-            \Log::info('Game API - Fetching songs for playlist: ' . $playlistId);
+            $playlistId = $request->input('playlist_id', '38QnPhHZa2umQm45xPTo1H');
 
             $accessToken = $this->getAccessToken();
-            \Log::info('Game API - Got access token');
 
             // Fetch all tracks from playlist
             $tracksRes = Http::withToken($accessToken)->get(
                 "https://api.spotify.com/v1/playlists/{$playlistId}/tracks",
                 [
                     'limit'  => 50,
-                    'fields' => 'items(track(id,name,preview_url,duration_ms,artists(name),album(images)))',
+                    'fields' => 'items(track(id,name,artists(name)))',
                 ]
             );
 
-            \Log::info('Game API - Response status: ' . $tracksRes->status());
-
             if ($tracksRes->failed()) {
-                $errorMsg = 'Spotify API Error: ' . $tracksRes->status() . ' - ' . $tracksRes->body();
-                \Log::error($errorMsg);
-                return response()->json(['error' => $errorMsg], 400);
+                return response()->json(['error' => 'Spotify API failed: ' . $tracksRes->status()], 400);
             }
 
-            $tracksData = $tracksRes->json('items');
-            \Log::info('Game API - Got ' . count($tracksData ?? []) . ' items from Spotify');
+            $tracksData = $tracksRes->json('items') ?? [];
 
-            if (!$tracksData) {
-                return response()->json(['error' => 'No items in playlist'], 400);
+            if (empty($tracksData)) {
+                return response()->json(['error' => 'Playlist is empty'], 400);
             }
 
+            // Get lyrics for each track
             $items = collect($tracksData)
                 ->filter(function($i) {
-                    return isset($i['track']) &&
-                           !empty($i['track']) &&
-                           isset($i['track']['preview_url']) &&
-                           !empty($i['track']['preview_url']);
+                    return isset($i['track']) && !empty($i['track']);
                 })
                 ->map(function($item) {
                     $track = $item['track'];
+                    $trackName = $track['name'];
+                    $artist = $track['artists'][0]['name'] ?? 'Unknown';
+
+                    // Try to get lyrics
+                    $lyrics = $this->getLyrics($artist, $trackName);
+
                     return [
                         'id' => $track['id'],
-                        'name' => $track['name'],
-                        'artists' => implode(', ', array_map(fn($a) => $a['name'], $track['artists'])),
-                        'preview_url' => $track['preview_url'],
-                        'image' => $track['album']['images'][0]['url'] ?? null,
+                        'name' => $trackName,
+                        'artist' => $artist,
+                        'lyrics' => $lyrics,
                     ];
                 })
+                ->filter(fn($item) => !empty($item['lyrics'])) // Only songs with lyrics
                 ->values()
                 ->toArray();
 
-            \Log::info('Game API - Filtered to ' . count($items) . ' playable songs');
-
             if (empty($items)) {
-                return response()->json(['error' => 'No playable songs found in playlist (songs need preview URLs)'], 400);
+                return response()->json(['error' => 'No songs with lyrics found'], 400);
             }
 
             return response()->json($items);
         } catch (\Exception $e) {
-            $errorMsg = 'Game Controller Error: ' . $e->getMessage() . ' at ' . $e->getFile() . ':' . $e->getLine();
-            \Log::error($errorMsg);
-            return response()->json(['error' => $errorMsg], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    private function getLyrics($artist, $title)
+    {
+        try {
+            // Clean up artist and title for API
+            $artist = trim($artist);
+            $title = trim($title);
+
+            // Try lyrics.ovh API
+            $response = Http::timeout(5)->get('https://api.lyrics.ovh/v1/' . urlencode($artist) . '/' . urlencode($title));
+
+            if ($response->successful() && isset($response['lyrics'])) {
+                $fullLyrics = $response['lyrics'];
+                // Get first 3-4 lines
+                $lines = array_filter(explode("\n", $fullLyrics));
+                $snippet = implode("\n", array_slice($lines, 0, 4));
+                return $snippet ?: null;
+            }
+        } catch (\Exception $e) {
+            // Silently fail, will be filtered out
+        }
+
+        return null;
     }
 }

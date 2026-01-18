@@ -23,24 +23,17 @@
 
                 <!-- Game State -->
                 <div id="gameState" style="display: none;">
-                    <!-- Song Album Art -->
+                    <!-- Lyrics Display -->
                     <div class="text-center mb-4">
-                        <img id="albumArt" src="" alt="Album Art" class="img-fluid rounded shadow-sm album-art" style="max-width: 280px; height: 280px; object-fit: cover;">
+                        <div class="lyrics-box p-4 bg-light rounded">
+                            <p id="lyricsDisplay" class="lead text-dark" style="font-style: italic; line-height: 1.8; min-height: 100px;">
+                                <!-- Lyrics will be displayed here -->
+                            </p>
+                        </div>
                     </div>
 
-                    <!-- Play Button -->
-                    <div class="text-center mb-4">
-                        <button id="playBtn" class="btn btn-lg btn-primary rounded-circle play-button" onclick="playAudio()">
-                            <i class="fas fa-play" style="font-size: 32px;"></i>
-                        </button>
-                    </div>
-
-                    <!-- Audio Player -->
-                    <div class="mb-4">
-                        <audio id="audioPlayer" class="w-100">
-                            <source id="audioSource" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
+                    <div class="text-center mb-3">
+                        <p class="text-muted text-sm">Guess the song title from these lyrics! 🎵</p>
                     </div>
 
                     <!-- Game Info -->
@@ -56,17 +49,6 @@
                     <!-- Score -->
                     <div class="text-center mb-4">
                         <h5 class="score-display">Score: <span id="score">0</span></h5>
-                    </div>
-
-                    <!-- Hints -->
-                    <div id="hintsContainer" class="mb-4 hints-section">
-                        <button class="btn btn-sm btn-outline-secondary me-2 hint-btn" id="artistHintBtn" onclick="showHint('artist')">
-                            👤 Artist Hint
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary hint-btn" id="titleHintBtn" onclick="showHint('title')">
-                            📝 Title Hint
-                        </button>
-                        <p id="hintText" class="mt-2 text-info" style="display: none;"></p>
                     </div>
 
                     <!-- Answer Options -->
@@ -401,7 +383,6 @@
     let score = 0;
     const QUESTIONS_COUNT = 10;
     let currentQuestion = null;
-    let hintsUsed = { artist: false, title: false };
 
     // Initialize game
     document.addEventListener('DOMContentLoaded', function() {
@@ -455,9 +436,6 @@
             return;
         }
 
-        // Reset hints
-        hintsUsed = { artist: false, title: false };
-        document.getElementById('hintText').style.display = 'none';
         document.getElementById('feedbackContainer').style.display = 'none';
 
         // Select random song
@@ -466,9 +444,7 @@
 
         // Update UI
         document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-        document.getElementById('albumArt').src = currentQuestion.image;
-        document.getElementById('audioSource').src = currentQuestion.preview_url;
-        document.getElementById('audioPlayer').load();
+        document.getElementById('lyricsDisplay').textContent = currentQuestion.lyrics;
 
         // Update progress
         const progress = ((currentQuestionIndex) / QUESTIONS_COUNT) * 100;
@@ -479,8 +455,6 @@
 
         // Reset button states
         document.getElementById('nextBtn').style.display = 'none';
-        document.getElementById('artistHintBtn').disabled = false;
-        document.getElementById('titleHintBtn').disabled = false;
     }
 
     function generateOptions() {
@@ -538,36 +512,6 @@
         messageDiv.className = 'alert alert-' + type;
         messageDiv.textContent = message;
         container.style.display = 'block';
-    }
-
-    function showHint(type) {
-        if (hintsUsed[type]) {
-            alert('Hint already used!');
-            return;
-        }
-
-        hintsUsed[type] = true;
-        const hintText = document.getElementById('hintText');
-        let hint = '';
-
-        if (type === 'artist') {
-            const artists = currentQuestion.artists.split(', ');
-            hint = '👤 Artist hint: ' + artists[0].substring(0, 3) + '...';
-            document.getElementById('artistHintBtn').disabled = true;
-        } else if (type === 'title') {
-            const titleChars = Math.ceil(currentQuestion.name.length / 2);
-            hint = '📝 Title hint: ' + currentQuestion.name.substring(0, titleChars) + '...';
-            document.getElementById('titleHintBtn').disabled = true;
-        }
-
-        hintText.textContent = hint;
-        hintText.style.display = 'block';
-    }
-
-    function playAudio() {
-        const player = document.getElementById('audioPlayer');
-        player.currentTime = 0;
-        player.play();
     }
 
     function nextQuestion() {
