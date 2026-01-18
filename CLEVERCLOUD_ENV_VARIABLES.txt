@@ -1,0 +1,41 @@
+#!/bin/bash
+# Script untuk set Environment Variables di CleverCloud Dashboard
+
+# ============================================
+# COPY SEMUA VARIABLE INI KE CLEVERCLOUD
+# ============================================
+# Buka CleverCloud Dashboard > Environment Variables
+# Paste semua ini:
+
+APP_NAME=Laravel
+APP_ENV=production
+APP_KEY=base64:d0eqc80sANL9DFVnpsBvNQkMlElkd7XrFKHhEmuTxCA=
+APP_DEBUG=false
+APP_URL=https://penyemangat-ella.cleverapps.io
+
+LOG_CHANNEL=stack
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=bswrtsm2g-t5d3khi5y2gy-mysql.services.clever-cloud.com
+DB_PORT=3306
+DB_DATABASE=bswrtsm2g-t5d3khi5y2gy
+DB_USERNAME=uuxwm6a8gkDcEFjd
+DB_PASSWORD=YOUR_PASSWORD_HERE
+
+SPOTIFY_CLIENT_ID=11dda9b0b23147ccbae9a6a38a60222c
+SPOTIFY_CLIENT_SECRET=c4edee5e42e14aeb8f76afbad3305aa4
+
+CACHE_STORE=database
+SESSION_DRIVER=database
+QUEUE_CONNECTION=database
+
+# ============================================
+# LANGKAH SETUP:
+# ============================================
+# 1. Buka dashboard CleverCloud app Anda
+# 2. Pergi ke tab "Environment Variables"
+# 3. Tambahkan semua variable di atas
+# 4. PENTING: DB_PASSWORD ganti dengan password real!
+# 5. Save & Deploy
+# ============================================

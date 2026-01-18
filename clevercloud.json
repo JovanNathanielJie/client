@@ -1,5 +1,7 @@
 {
   "build": {
-    "type": "php"
+    "type": "php",
+    "postBuild": "bash clevercloud/post_build.sh"
   }
 }
+

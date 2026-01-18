@@ -1,0 +1,74 @@
+🚀 RUN MIGRATIONS IMMEDIATELY
+
+═══════════════════════════════════════════════════════════
+
+MASALAH: Database kosong, belum ada tables
+
+SOLUSI LANGSUNG: SSH ke server dan run migrations
+═══════════════════════════════════════════════════════════
+
+STEP 1: SSH ke CleverCloud
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Buka terminal dan run:
+
+    clever ssh
+
+Tunggu hingga connected (prompt berubah)
+
+STEP 2: Run Migrations
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Ketika sudah di server CleverCloud, jalankan:
+
+    php artisan migrate --force
+
+Output harusnya:
+    Migrating: 2026_01_18_131444_create_adventures_table
+    Migrated: 2026_01_18_131444_create_adventures_table (xxx ms)
+
+STEP 3: Verify
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Exit SSH:
+    exit
+
+Buka aplikasi:
+    https://penyemangat-ella.cleverapps.io/adventure
+
+Sekarang harusnya:
+✅ Table adventures sudah ada
+✅ Page tidak error
+✅ Bisa tambah kegiatan
+
+═══════════════════════════════════════════════════════════
+
+JIKA BELUM BERHASIL:
+
+1. Verify DB connection:
+   clever ssh
+   php artisan migrate:status
+
+   Harusnya list migrations
+
+2. Check database credentials:
+   clever ssh
+   php artisan tinker
+   >>> DB::connection()->getPdo()
+
+   Jika error, credentials salah di ENV VAR
+
+3. Lihat error details:
+   clever logs --stream
+
+═══════════════════════════════════════════════════════════
+
+LANGKAH TERAKHIR (FIX AUTO-DEPLOY):
+
+Sudah update clevercloud.json dengan postBuild script.
+Untuk future deployment, otomatis akan:
+✅ Run migrations
+✅ Cache configuration
+✅ Cache routes
+✅ Cache views
+
+═══════════════════════════════════════════════════════════
+
+NEXT DEPLOY AKAN OTOMATIS SETUP DATABASE! 🎉

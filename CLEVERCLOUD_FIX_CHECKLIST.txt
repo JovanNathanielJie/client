@@ -1,0 +1,49 @@
+═══════════════════════════════════════════════════════════
+                    🔧 QUICK FIX CHECKLIST
+═══════════════════════════════════════════════════════════
+
+BUKA CLEVERCLOUD DASHBOARD:
+[ ] 1. Go ke https://console.clever-cloud.com/
+[ ] 2. Pilih app "penyemangat-ella"
+[ ] 3. Klik tab "Environment variables"
+
+SET DATABASE CONNECTION:
+[ ] 4. Cari atau tambah variable: DB_CONNECTION
+[ ] 5. Value: mysql
+[ ] 6. Save
+
+SET MYSQL CREDENTIALS:
+[ ] 7. DB_HOST = bswrtsm2g-t5d3khi5y2gy-mysql.services.clever-cloud.com
+[ ] 8. DB_PORT = 3306
+[ ] 9. DB_DATABASE = bswrtsm2g-t5d3khi5y2gy
+[ ] 10. DB_USERNAME = uuxwm6a8gkDcEFjd
+[ ] 11. DB_PASSWORD = [paste password dari CleverCloud panel]
+
+SET APP CONFIG:
+[ ] 12. APP_ENV = production
+[ ] 13. APP_DEBUG = false
+[ ] 14. CACHE_STORE = database
+[ ] 15. SESSION_DRIVER = database
+
+SET SPOTIFY:
+[ ] 16. SPOTIFY_CLIENT_ID = 11dda9b0b23147ccbae9a6a38a60222c
+[ ] 17. SPOTIFY_CLIENT_SECRET = c4edee5e42e14aeb8f76afbad3305aa4
+
+DEPLOY:
+[ ] 18. Klik "Save"
+[ ] 19. Wait untuk app restart (lihat logs)
+[ ] 20. Buka https://penyemangat-ella.cleverapps.io/adventure
+
+VERIFY:
+[ ] 21. Halaman adventure tampil ✅
+[ ] 22. Tabel kosong atau ada data ✅
+[ ] 23. Bisa tambah kegiatan baru ✅
+[ ] 24. Tidak ada error ✅
+
+═══════════════════════════════════════════════════════════
+
+⏱️ ESTIMATED TIME: 5 minutes
+
+🎯 RESULT: Fixed! ✅
+
+═══════════════════════════════════════════════════════════
