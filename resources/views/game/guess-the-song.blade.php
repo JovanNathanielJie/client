@@ -45,10 +45,6 @@
                     <p class="text-muted mb-4" style="font-size: 0.95rem;">
                         Check back soon! In the meantime, feel free to explore the other pages on the website. ✨
                     </p>
-
-                    <a href="{{ route('dashboard') }}" class="btn btn-light btn-lg fw-bold">
-                        <i class="fas fa-arrow-left me-2"></i> Back to Home
-                    </a>
                 </div>
             </div>
         </div>
