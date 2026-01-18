@@ -175,12 +175,6 @@
             </a>
             </li>
             <li class="nav-item">
-            <a href="{{ url('/timeline') }}" class="nav-link">
-                <i class="nav-icon fas fa-heart-pulse"></i>
-                <p>Our Timeline</p>
-            </a>
-            </li>
-            <li class="nav-item">
             <a href="{{ url('/game/guess-the-song') }}" class="nav-link">
                 <i class="nav-icon fas fa-gamepad"></i>
                 <p>Guess The Song</p>

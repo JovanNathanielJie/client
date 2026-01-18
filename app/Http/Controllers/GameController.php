@@ -27,10 +27,6 @@ class GameController extends Controller
 
     public function guessTheSong()
     {
-        if (!session()->has('user_name')) {
-            return redirect('/');
-        }
-
         return view('game.guess-the-song');
     }
 
