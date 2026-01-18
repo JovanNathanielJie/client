@@ -39,7 +39,10 @@ class GameController extends Controller
         $playlistId = $request->input('playlist_id', '38QnPhHZa2umQm45xPTo1H'); // Default playlist
 
         try {
+            \Log::info('Game API - Fetching songs for playlist: ' . $playlistId);
+
             $accessToken = $this->getAccessToken();
+            \Log::info('Game API - Got access token');
 
             // Fetch all tracks from playlist
             $tracksRes = Http::withToken($accessToken)->get(
@@ -50,12 +53,17 @@ class GameController extends Controller
                 ]
             );
 
+            \Log::info('Game API - Response status: ' . $tracksRes->status());
+
             if ($tracksRes->failed()) {
-                \Log::error('Spotify API Error: ' . $tracksRes->body());
-                return response()->json(['error' => 'Failed to fetch tracks: ' . $tracksRes->status()], 400);
+                $errorMsg = 'Spotify API Error: ' . $tracksRes->status() . ' - ' . $tracksRes->body();
+                \Log::error($errorMsg);
+                return response()->json(['error' => $errorMsg], 400);
             }
 
             $tracksData = $tracksRes->json('items');
+            \Log::info('Game API - Got ' . count($tracksData ?? []) . ' items from Spotify');
+
             if (!$tracksData) {
                 return response()->json(['error' => 'No items in playlist'], 400);
             }
@@ -80,14 +88,17 @@ class GameController extends Controller
                 ->values()
                 ->toArray();
 
+            \Log::info('Game API - Filtered to ' . count($items) . ' playable songs');
+
             if (empty($items)) {
-                return response()->json(['error' => 'No playable songs found in playlist'], 400);
+                return response()->json(['error' => 'No playable songs found in playlist (songs need preview URLs)'], 400);
             }
 
             return response()->json($items);
         } catch (\Exception $e) {
-            \Log::error('Game Controller Error: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            $errorMsg = 'Game Controller Error: ' . $e->getMessage() . ' at ' . $e->getFile() . ':' . $e->getLine();
+            \Log::error($errorMsg);
+            return response()->json(['error' => $errorMsg], 500);
         }
     }
 }

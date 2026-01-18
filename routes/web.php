@@ -66,6 +66,10 @@ Route::get('/gallery', function () {
 Route::get('/game/guess-the-song', [GameController::class, 'guessTheSong'])
     ->name('game.guess-the-song');
 
+Route::get('/timeline', function () {
+    return view('timeline.index');
+});
+
 Route::get('/api/game/song-data', [GameController::class, 'getSongData']);
 
 Route::get('/api/spotify/tracks', function () {

@@ -1,6 +1,8 @@
 @extends('layout.main')
 
 @section('content')
+<div id="confetti-container"></div>
+
 <div class="container py-5">
     <div class="text-center mb-5">
         <h2 class="fw-bold text-gradient">🎵 Guess The Song 🎵</h2>
@@ -10,7 +12,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <!-- Game Container -->
-            <div id="gameContainer" class="card shadow-lg p-5">
+            <div id="gameContainer" class="card game-card shadow-lg p-5">
                 <!-- Loading State -->
                 <div id="loadingState" class="text-center">
                     <div class="spinner-border text-primary" role="status">
@@ -23,12 +25,12 @@
                 <div id="gameState" style="display: none;">
                     <!-- Song Album Art -->
                     <div class="text-center mb-4">
-                        <img id="albumArt" src="" alt="Album Art" class="img-fluid rounded shadow-sm" style="max-width: 300px; height: auto;">
+                        <img id="albumArt" src="" alt="Album Art" class="img-fluid rounded shadow-sm album-art" style="max-width: 280px; height: 280px; object-fit: cover;">
                     </div>
 
                     <!-- Play Button -->
                     <div class="text-center mb-4">
-                        <button id="playBtn" class="btn btn-lg btn-primary rounded-circle" onclick="playAudio()" style="width: 80px; height: 80px;">
+                        <button id="playBtn" class="btn btn-lg btn-primary rounded-circle play-button" onclick="playAudio()">
                             <i class="fas fa-play" style="font-size: 32px;"></i>
                         </button>
                     </div>
@@ -46,22 +48,22 @@
                         <p class="text-muted">
                             <span id="currentQuestion">Question 1</span> of <span id="totalQuestions">10</span>
                         </p>
-                        <div class="progress" style="height: 8px;">
-                            <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+                        <div class="progress game-progress" style="height: 8px;">
+                            <div id="progressBar" class="progress-bar progress-animated" style="width: 0%"></div>
                         </div>
                     </div>
 
                     <!-- Score -->
                     <div class="text-center mb-4">
-                        <h5>Score: <span id="score">0</span></h5>
+                        <h5 class="score-display">Score: <span id="score">0</span></h5>
                     </div>
 
                     <!-- Hints -->
-                    <div id="hintsContainer" class="mb-4">
-                        <button class="btn btn-sm btn-outline-secondary me-2" id="artistHintBtn" onclick="showHint('artist')">
+                    <div id="hintsContainer" class="mb-4 hints-section">
+                        <button class="btn btn-sm btn-outline-secondary me-2 hint-btn" id="artistHintBtn" onclick="showHint('artist')">
                             👤 Artist Hint
                         </button>
-                        <button class="btn btn-sm btn-outline-secondary" id="titleHintBtn" onclick="showHint('title')">
+                        <button class="btn btn-sm btn-outline-secondary hint-btn" id="titleHintBtn" onclick="showHint('title')">
                             📝 Title Hint
                         </button>
                         <p id="hintText" class="mt-2 text-info" style="display: none;"></p>
@@ -74,26 +76,26 @@
 
                     <!-- Next Button -->
                     <div class="text-center">
-                        <button id="nextBtn" class="btn btn-primary" onclick="nextQuestion()" style="display: none;">
-                            Next Question
+                        <button id="nextBtn" class="btn btn-primary btn-lg next-btn" onclick="nextQuestion()" style="display: none;">
+                            Next Question ➜
                         </button>
                     </div>
 
                     <!-- Answer Feedback -->
                     <div id="feedbackContainer" class="mt-4" style="display: none;">
-                        <div id="feedbackMessage" class="alert" role="alert"></div>
+                        <div id="feedbackMessage" class="alert alert-animated" role="alert"></div>
                     </div>
                 </div>
 
                 <!-- Game Over State -->
                 <div id="gameOverState" style="display: none;" class="text-center">
-                    <h3 class="mb-4">🎉 Game Over!</h3>
-                    <h2 class="text-gradient mb-4">
+                    <h3 class="mb-4 game-over-title">🎉 Game Over!</h3>
+                    <h2 class="text-gradient mb-4 final-score-display">
                         Final Score: <span id="finalScore">0</span>
                     </h2>
                     <p class="text-muted mb-4" id="scoreMessage"></p>
-                    <button class="btn btn-primary btn-lg" onclick="location.reload()">
-                        Play Again
+                    <button class="btn btn-primary btn-lg play-again-btn" onclick="location.reload()">
+                        Play Again 🎮
                     </button>
                 </div>
 
@@ -112,40 +114,277 @@
         background-clip: text;
     }
 
+    .game-card {
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        transition: all 0.3s ease;
+    }
+
+    .game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.15) !important;
+    }
+
+    .album-art {
+        animation: slideDown 0.6s ease-out;
+        border: 8px solid white;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .play-button {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        transition: all 0.3s ease;
+        animation: pulseGlow 2s infinite;
+    }
+
+    .play-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+    }
+
+    @keyframes pulseGlow {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+        }
+        50% {
+            box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
+        }
+    }
+
+    .game-progress {
+        border-radius: 10px;
+        background-color: #e9ecef;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        transition: width 0.4s ease;
+    }
+
+    .progress-animated {
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+
+    .score-display {
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+    }
+
+    .hints-section {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .hint-btn {
+        transition: all 0.3s ease;
+        border-radius: 20px;
+        padding: 8px 16px;
+    }
+
+    .hint-btn:hover:not(:disabled) {
+        background-color: #667eea;
+        color: white;
+        border-color: #667eea;
+        transform: translateY(-2px);
+    }
+
     .option-btn {
         width: 100%;
-        padding: 12px;
-        margin-bottom: 10px;
+        padding: 15px;
+        margin-bottom: 12px;
         border: 2px solid #e9ecef;
         background: white;
-        border-radius: 8px;
+        border-radius: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
         text-align: left;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    .option-btn:hover {
+    .option-btn:hover:not(:disabled) {
         border-color: #667eea;
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+        transform: translateX(5px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
     }
 
     .option-btn.selected {
-        background: #667eea;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border-color: #667eea;
+        transform: scale(1.02);
     }
 
     .option-btn.correct {
-        background: #28a745;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         color: white;
         border-color: #28a745;
+        animation: correctPulse 0.5s ease;
     }
 
     .option-btn.incorrect {
-        background: #dc3545;
+        background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
         color: white;
         border-color: #dc3545;
+        animation: shake 0.4s ease;
     }
+
+    @keyframes correctPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.03);
+        }
+    }
+
+    @keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        25% {
+            transform: translateX(-5px);
+        }
+        75% {
+            transform: translateX(5px);
+        }
+    }
+
+    .option-btn:disabled {
+        cursor: not-allowed;
+    }
+
+    .next-btn {
+        border-radius: 20px;
+        padding: 12px 40px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        animation: slideUp 0.4s ease-out;
+    }
+
+    .next-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .alert-animated {
+        animation: slideInDown 0.4s ease-out;
+        border-radius: 12px;
+        border: none;
+    }
+
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .game-over-title {
+        font-size: 2rem;
+        animation: bounce 0.6s ease-out;
+    }
+
+    .final-score-display {
+        font-size: 2.5rem;
+        animation: slideDown 0.6s ease-out;
+    }
+
+    .play-again-btn {
+        border-radius: 20px;
+        padding: 15px 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .play-again-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    @keyframes bounce {
+        0% {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    /* Confetti styles */
+    #confetti-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #667eea;
+        pointer-events: none;
+    }
+
+    audio {
+        border-radius: 8px;
+    }
+</style>
 
     .option-btn:disabled {
         cursor: not-allowed;
@@ -171,22 +410,30 @@
 
     function loadSongs() {
         fetch('/api/game/song-data')
-            .then(response => response.json())
+            .then(response => {
+                console.log('API Response Status:', response.status);
+                return response.json();
+            })
             .then(data => {
+                console.log('API Response Data:', data);
                 if (data.error) {
-                    showError(data.error);
+                    showError('Error: ' + data.error);
+                } else if (!Array.isArray(data)) {
+                    showError('Invalid response format from server');
+                    console.error('Invalid data format:', data);
                 } else {
                     allSongs = data;
+                    console.log('Loaded ' + allSongs.length + ' songs');
                     if (allSongs.length < 4) {
-                        showError('Not enough songs in the playlist to play the game.');
+                        showError('Not enough songs in the playlist to play the game. Found only ' + allSongs.length + ' songs with previews.');
                     } else {
                         startGame();
                     }
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                showError('Failed to load songs. Please refresh and try again.');
+                console.error('Fetch Error:', error);
+                showError('Network error: ' + error.message + '. Please check your connection and refresh.');
             });
     }
 
@@ -335,8 +582,10 @@
 
         if (percentage === 100) {
             message = 'Perfect! You know Ella\'s playlist by heart! 💜';
+            createConfetti();
         } else if (percentage >= 80) {
             message = 'Excellent! You\'re a true fan! 🎵';
+            createConfetti();
         } else if (percentage >= 60) {
             message = 'Good job! Not bad! 😊';
         } else if (percentage >= 40) {
@@ -346,6 +595,45 @@
         }
 
         document.getElementById('scoreMessage').textContent = message;
+    }
+
+    function createConfetti() {
+        const container = document.getElementById('confetti-container');
+        const colors = ['#667eea', '#764ba2', '#ffc93c', '#ff6b6b', '#4ecdc4'];
+
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti-piece';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.opacity = Math.random();
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = confetti.style.width;
+            confetti.style.borderRadius = '50%';
+
+            container.appendChild(confetti);
+
+            const duration = Math.random() * 2 + 2;
+            const distance = Math.random() * 300 + 200;
+            const angle = Math.random() * 360;
+
+            confetti.animate([
+                {
+                    transform: 'translate(0, 0) rotate(0deg)',
+                    opacity: 1
+                },
+                {
+                    transform: `translate(${Math.cos(angle * Math.PI / 180) * distance}px, ${distance}px) rotate(360deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: duration * 1000,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            });
+
+            setTimeout(() => confetti.remove(), duration * 1000);
+        }
     }
 
     function showError(message) {
