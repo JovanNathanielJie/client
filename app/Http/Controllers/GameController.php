@@ -51,11 +51,22 @@ class GameController extends Controller
             );
 
             if ($tracksRes->failed()) {
-                return response()->json(['error' => 'Failed to fetch tracks'], 400);
+                \Log::error('Spotify API Error: ' . $tracksRes->body());
+                return response()->json(['error' => 'Failed to fetch tracks: ' . $tracksRes->status()], 400);
             }
 
-            $items = collect($tracksRes->json('items'))
-                ->filter(fn($i) => !empty($i['track']) && !empty($i['track']['preview_url']))
+            $tracksData = $tracksRes->json('items');
+            if (!$tracksData) {
+                return response()->json(['error' => 'No items in playlist'], 400);
+            }
+
+            $items = collect($tracksData)
+                ->filter(function($i) {
+                    return isset($i['track']) &&
+                           !empty($i['track']) &&
+                           isset($i['track']['preview_url']) &&
+                           !empty($i['track']['preview_url']);
+                })
                 ->map(function($item) {
                     $track = $item['track'];
                     return [
@@ -70,11 +81,12 @@ class GameController extends Controller
                 ->toArray();
 
             if (empty($items)) {
-                return response()->json(['error' => 'No playable songs found'], 400);
+                return response()->json(['error' => 'No playable songs found in playlist'], 400);
             }
 
             return response()->json($items);
         } catch (\Exception $e) {
+            \Log::error('Game Controller Error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
