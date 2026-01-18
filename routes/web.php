@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\AdventureController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -65,6 +66,9 @@ Route::get('/gallery', function () {
 
 Route::get('/game/guess-the-song', [GameController::class, 'guessTheSong'])
     ->name('game.guess-the-song');
+
+Route::resource('adventure', AdventureController::class)
+    ->only(['index', 'store', 'update', 'destroy']);
 
 Route::get('/api/spotify/tracks', function () {
     $clientId = env('SPOTIFY_CLIENT_ID');

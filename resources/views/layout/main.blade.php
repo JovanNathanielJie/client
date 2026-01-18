@@ -180,6 +180,12 @@
                 <p>Guess The Song</p>
             </a>
             </li>
+            <li class="nav-item">
+            <a href="{{ url('/adventure') }}" class="nav-link">
+                <i class="nav-icon fas fa-map"></i>
+                <p>Our Adventure</p>
+            </a>
+            </li>
         </ul>
       </nav>
     </div>
