@@ -17,11 +17,11 @@ LOG_CHANNEL=stack
 LOG_LEVEL=debug
 
 DB_CONNECTION=mysql
-DB_HOST=bswrtsm2g-t5d3khi5y2gy-mysql.services.clever-cloud.com
+DB_HOST=bwwttm2p4r408h5iy24y-mysql.services.clever-cloud.com
 DB_PORT=3306
-DB_DATABASE=bswrtsm2g-t5d3khi5y2gy
-DB_USERNAME=uuxwm6a8gkDcEFjd
-DB_PASSWORD=YOUR_PASSWORD_HERE
+DB_DATABASE=bwwttm2p4r408h5iy24y
+DB_USERNAME=uosws6wkgb0xifjd
+DB_PASSWORD=SFTj3Hads9BdvPcqVWQS
 
 SPOTIFY_CLIENT_ID=11dda9b0b23147ccbae9a6a38a60222c
 SPOTIFY_CLIENT_SECRET=c4edee5e42e14aeb8f76afbad3305aa4
